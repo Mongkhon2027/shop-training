@@ -10,9 +10,8 @@
 import { ref } from 'vue';
 import { onMounted } from 'vue';
 import { type Product } from '@/models/product';
-import productApi from '@/Services/api/features/example'
+import productApi from '@/Services/api/features/product'
 
-  const product = ref<Product | null>(null)
   const products = ref<Product[] | null>(null)
 
   async function getAllProduct() {
@@ -24,18 +23,8 @@ import productApi from '@/Services/api/features/example'
     }
   }
 
-  async function getProductById(id:number) {
-    try{
-      const response = await productApi.getById<Product>(id)
-      product.value = response
-    } catch (error) {
-      console.log('error', error)
-    }
-  }
-
 onMounted(() => {
   getAllProduct()
-  getProductById(2)
 })
 </script>
 

@@ -2,15 +2,19 @@
 <template>
     <v-app>
         <v-app-bar>
-            <v-row>
-                <v-col cols="4">
-                    <v-app-bar-title>Application Bar</v-app-bar-title>
+            <v-row class="align-center">
+                <v-col cols="11">
+                    <div class="d-flex align-center ml-4">
+                        <img src="../assets/monkey-shop.png" 
+                            width="32" 
+                            height="32">
+                        <v-app-bar-title class="ml-1">Monkey Shop</v-app-bar-title>
+                    </div>
                 </v-col>
-                <v-col cols="6">
-
-                </v-col>
-                <v-col cols="2">
-                    <v-btn append-icon="mdi-cart"></v-btn>
+                <v-col cols="1">
+                    <v-btn icon>
+                        <v-icon>mdi-cart</v-icon>
+                    </v-btn>
                 </v-col>
             </v-row>
         </v-app-bar>

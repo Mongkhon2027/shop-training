@@ -1,19 +1,8 @@
-// import path = require('path')
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    // {
-    //   path: '/',
-    //   name: 'home',
-    //   component: () => import('@/views/HomeView.vue'),
-    // },
-    // {
-    //   path: '/about',
-    //   name: 'about',
-    //   component: () => import('@/views/AboutView.vue'),
-    // },
     {
       path: '/',
       redirect: '/login'
@@ -25,7 +14,7 @@ const router = createRouter({
         {
           path: 'login',
           name: 'Login',
-          component: () => import('@/views/LoginPage.vue'), // Change path to Login Page
+          component: () => import('@/views/LoginPage.vue'),
         },
       ]
     },
@@ -40,7 +29,7 @@ const router = createRouter({
           component: () => import('@/views/HomeView.vue'),
         },
         {
-          path: 'products/:id',
+          path: 'product/:id',
           name: 'ProductPage',
           component: () => import('@/views/ProductDetailView.vue'),
         },
@@ -50,11 +39,6 @@ const router = createRouter({
           component: () => import('@/views/CartView.vue'),
         },
       ]
-    },
-    {
-      path: '/login',
-      name: 'LoginPage',
-      component: () => import('@/views/LoginPage.vue')
     },
   ],
 })
@@ -67,7 +51,7 @@ router.beforeEach((to, form, next) => {
     to.meta?.requireAuth &&
     !isLogin
   ) {
-    next({ name: 'Home' })
+    next({ name: 'Login' })
   } else {
     next()
   }
