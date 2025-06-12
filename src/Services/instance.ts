@@ -37,12 +37,8 @@ export const createInstance = (domain: string): AxiosInstance => {
 }
 
 // ใน Vite environment variables จะต้องมี prefix "VITE_"
-
-const baseURL = "https://fakestoreapi.com/";
-
 const instance: AxiosInstance = createInstance(
-  // import.meta.env.VITE_HOSPITAL_DOMAIN as string
-  baseURL
+  import.meta.env.VITE_HOSPITAL_DOMAIN as string
 )
 
 export { instance }
