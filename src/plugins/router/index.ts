@@ -25,7 +25,7 @@ const router = createRouter({
         {
           path: 'login',
           name: 'Login',
-          component: () => import('@/views/AboutView.vue'), // Change path to Login Page
+          component: () => import('@/views/LoginPage.vue'), // Change path to Login Page
         },
       ]
     },
@@ -63,11 +63,11 @@ const isLogin = true;
 
 router.beforeEach((to, form, next) => {
   if (
-    to.name !== 'Login' && 
+    to.name !== 'Login' &&
     to.meta?.requireAuth &&
     !isLogin
   ) {
-    next({ name: 'LoginPage' })
+    next({ name: 'Home' })
   } else {
     next()
   }
