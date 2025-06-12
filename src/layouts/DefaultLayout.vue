@@ -4,7 +4,7 @@
         <v-app-bar>
             <v-row class="align-center">
                 <v-col cols="11">
-                    <div class="d-flex align-center ml-4">
+                    <div @click="goToHomePage" role="button" class="d-flex align-center ml-4">
                         <img src="../assets/monkey-shop.png" 
                             width="32" 
                             height="32">
@@ -26,6 +26,11 @@
 </template>
 
 <script setup lang="ts">
+import router from '@/plugins/router';
+
+    function goToHomePage() {
+        router.push('/default/home')
+    }
 </script>
 
 <style lang="scss" scoped>
