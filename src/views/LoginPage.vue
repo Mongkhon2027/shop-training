@@ -14,13 +14,9 @@
               style="width: 300px; padding: 15px; height: 40px; border: 2px solid black;" />
           </p>
           <p style="padding: 20px; ">
-            <!-- <button class="login-button"
-          style="padding: 10px; font-size: 20px;
-          background-color: aqua;"
-          @click="Auth"
-          >Login</button> -->
-            <v-btn text="Login" @click="router.push({ name: 'Home' })"></v-btn>
-            <!-- <v-btn text="Login" @click="login"></v-btn> -->
+            <!-- <v-btn text="Login" @click="router.push({ name: 'Home' })"></v-btn> -->
+            <!-- <v-btn text="Login" @click="router.push({ name: 'Home' })"></v-btn> -->
+            <v-btn text="Login" @click="login"></v-btn>
           </p>
         </div>
       </v-card>
@@ -31,19 +27,29 @@
 
 <script setup lang="ts">
 
-import router from '@/plugins/router';
-import { ref } from 'vue';
-// import login from '@/Services/api/features/auth'
+import auth from '@/Services/api/features/auth'
+import { useAuthStore } from '@/plugins/stores/auth'
+import router from '@/plugins/router'
+import { ref } from 'vue'
 
 const username = ref('')
 const password = ref('')
-// Login Authen
-// async function login () {
-//   try{
+const error = ref('')
+const authStore = useAuthStore()
 
-//   }
-// }
-
+const login = async () => {
+  try {
+    const data = await auth.login<{ username: string; password: string }, { token: string }>({
+      username: username.value,
+      password: password.value
+    })
+    if (!data?.token) throw new Error('Invalid credentials')
+    authStore.setToken(data.token)
+    router.push({ name: 'Home' })
+  } catch (err) {
+    error.value = 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง'
+  }
+}
 </script>
-
+ 
 <style scoped></style>

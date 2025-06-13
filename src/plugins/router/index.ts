@@ -27,6 +27,7 @@ const router = createRouter({
           path: 'home',
           name: 'Home',
           component: () => import('@/views/HomeView.vue'),
+          meta: { requireAuth: true },
         },
         {
           path: 'product/:id',
