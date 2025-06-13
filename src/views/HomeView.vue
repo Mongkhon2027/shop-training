@@ -26,6 +26,7 @@ import { onMounted, ref } from 'vue';
 import { type Product } from '@/models/product';
 import productApi from '@/Services/api/features/product'
 import cardComponent from '@/components/cardComponent.vue'
+import router from '@/plugins/router';
 
 const product = ref<Product | null>(null)
 const products = ref<Product[] | null>(null)

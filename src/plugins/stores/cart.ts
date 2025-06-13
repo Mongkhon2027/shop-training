@@ -37,10 +37,10 @@ export const useCartStore = defineStore('cart',()=> {
     }
     async function fetchCartFromAuthUser() {
         const authStore = useAuthStore()
-        if(!authStore.setUserId) return
+        if(!authStore.userId) return
 
         try {
-            const response = await cartApi.getByUserId<Cart[]>(authStore.setUserId)
+            const response = await cartApi.getByUserId<Cart[]>(authStore.userId)
             const latestCart = response.length > 0 ? response[response.length -1 ] : null
 
             if(latestCart) {
@@ -69,7 +69,7 @@ export const useCartStore = defineStore('cart',()=> {
     function clearCart() {
     cart.value!.products = []
     }
-    return {fetchCart, fetchCartFromAuthUser, addToCart, clearCart}
+    return {cart, fetchCart, fetchCartFromAuthUser, addToCart, clearCart}
 }, {
   persist: {
     key: 'cart',

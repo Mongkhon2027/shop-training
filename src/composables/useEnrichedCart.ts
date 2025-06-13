@@ -3,14 +3,15 @@ import { useAuthStore } from "@/plugins/stores/auth";
 import productApi from "@/Services/api/features/product";
 import type { Product } from "@/models/product";
 
-export function useEnrichedCart(userId: number){
+export function useEnrichedCart(){
     const cartStore = useCartStore()
     const authStore = useAuthStore()
-    const cart = cartStore.fetchCart
+    const cart = cartStore.cart
     const products = ref<Product[]>([])
 
     async function fetchData() {
-        await cartStore.fetchCart(userId)
+        if(authStore.userId === null) return
+        await cartStore.fetchCart(authStore.userId)
         products.value = await productApi.getAll<Product[]>()
     }
 

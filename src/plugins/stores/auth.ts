@@ -14,5 +14,5 @@ export const useAuthStore = defineStore('auth',()=> {
       
       localStorage.setItem('userId', String(id))
     }
-    return { token, setToken, setUserId}
+    return { token, setToken, setUserId, userId}
 })

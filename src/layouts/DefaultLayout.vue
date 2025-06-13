@@ -36,7 +36,7 @@ const cartStore = useCartStore()
 const { cart } = storeToRefs(cartStore)
 
 const totalItems = computed(()=>
-    cart.value.products.reduce((sum, item) => sum + item.quantity,0 ) || 0
+    cart.value? cart.value.products.reduce((sum, item) => sum + item.quantity,0 ) : 0
 )
 
     function goToHomePage() {
