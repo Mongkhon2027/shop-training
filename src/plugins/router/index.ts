@@ -5,15 +5,56 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: () => import('@/views/HomeView.vue'),
+      redirect: '/login'
     },
     {
-      path: '/about',
-      name: 'about',
-      component: () => import('@/views/AboutView.vue'),
+      path: '/',
+      component: () => import('@/layouts/BlankLayout.vue'),
+      children :[
+        {
+          path: 'login',
+          name: 'Login',
+          component: () => import('@/views/LoginPage.vue'),
+        },
+      ]
+    },
+    {
+      path: '/default',
+      component: () => import('@/layouts/DefaultLayout.vue'),
+      meta: { requireAuth: true },
+      children :[
+        {
+          path: 'home',
+          name: 'Home',
+          component: () => import('@/views/HomeView.vue'),
+        },
+        {
+          path: 'product/:id',
+          name: 'ProductPage',
+          component: () => import('@/views/ProductDetailView.vue'),
+        },
+        {
+          path: 'cart',
+          name: 'Cart',
+          component: () => import('@/views/CartView.vue'),
+        },
+      ]
     },
   ],
+})
+
+const isLogin = true;
+
+router.beforeEach((to, form, next) => {
+  if (
+    to.name !== 'Login' &&
+    to.meta?.requireAuth &&
+    !isLogin
+  ) {
+    next({ name: 'Login' })
+  } else {
+    next()
+  }
 })
 
 export default router

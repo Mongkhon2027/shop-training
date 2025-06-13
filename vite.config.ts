@@ -21,7 +21,7 @@ export default defineConfig({
           vuetify:['useDisplay']
         }
       ],
-      dts: './auto-imports.d.ts',
+      dts: './src/auto-imports.d.ts',
       eslintrc: {
         enabled: true
       },
