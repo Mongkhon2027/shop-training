@@ -1,8 +1,6 @@
 <template>
   <!-- <div class="test-variable text-h4">test-variable</div> -->
-  <div v-for="(product, index) in products" :key="product.id">
-    #{{ index + 1 }} - {{ product }}
-  </div>
+  <div>{{ product?.category }}</div>
 </template>
 
 
@@ -10,7 +8,7 @@
 import { ref } from 'vue';
 import { onMounted } from 'vue';
 import { type Product } from '@/models/product';
-import productApi from '@/Services/api/features/example'
+import productApi from '@/Services/api/features/product'
 
   const product = ref<Product | null>(null)
   const products = ref<Product[] | null>(null)
