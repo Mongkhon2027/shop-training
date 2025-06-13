@@ -27,10 +27,9 @@
 
 <script setup lang="ts">
     import productApi from '@/Services/api/features/product'
-    import { onMounted , ref } from 'vue';
-    import { useRoute } from 'vue-router';
     import { type Product } from '@/models/product'
     
+    // const addtoCart = 
     const product = ref<Product | null>(null)
     const route = useRoute()
 
@@ -41,11 +40,11 @@
     } catch (error) {
       console.log('error', error)
     }
-  }
-  onMounted(() => {
-    const id = Number(route.params.id)
-    if (!isNaN(id)) getProductById(id)
-  })
+    }
+    onMounted(() => {
+      const id = Number(route.params.id)
+      if (!isNaN(id)) getProductById(id)
+    })
 </script>
     
 <style scoped>

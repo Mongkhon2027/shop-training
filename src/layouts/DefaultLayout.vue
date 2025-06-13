@@ -12,7 +12,7 @@
                     </div>
                 </v-col>
                 <v-col cols="1">
-                    <v-btn icon>
+                    <v-btn @click="goToCartPage" icon>
                         <v-icon>mdi-cart</v-icon>
                     </v-btn>
                 </v-col>
@@ -29,7 +29,13 @@
 import router from '@/plugins/router';
 
     function goToHomePage() {
+        console.log("HomePage");
         router.push('/default/home')
+    }
+
+    function goToCartPage(){
+        console.log("CartPage");
+        router.push("/default/cart")
     }
 </script>
 
