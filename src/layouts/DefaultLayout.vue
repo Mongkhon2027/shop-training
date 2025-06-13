@@ -48,6 +48,10 @@ const totalItems = computed(()=>
         console.log("CartPage");
         router.push("/default/cart")
     }
+
+onMounted(() => {
+    cartStore.fetchCartFromAuthUser()
+})
 </script>
 
 <style lang="scss" scoped>

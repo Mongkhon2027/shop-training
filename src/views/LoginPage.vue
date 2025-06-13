@@ -31,6 +31,7 @@ import auth from '@/Services/api/features/auth'
 import { useAuthStore } from '@/plugins/stores/auth'
 import router from '@/plugins/router'
 import { ref } from 'vue'
+import {jwtDecode} from 'jwt-decode'
 
 const username = ref('')
 const password = ref('')
@@ -39,12 +40,19 @@ const authStore = useAuthStore()
 
 const login = async () => {
   try {
-    const data = await auth.login<{ username: string; password: string }, { token: string }>({
+    const data = await auth.login<{ username: string; password: string }, { token: string, id: number }>({
       username: username.value,
-      password: password.value
+      password: password.value      
     })
+
     if (!data?.token) throw new Error('Invalid credentials')
+    
+    const sub = jwtDecode(data.token).sub
+
     authStore.setToken(data.token)
+    authStore.setUserId(sub)
+
+    
     router.push({ name: 'Home' })
   } catch (err) {
     error.value = 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง'

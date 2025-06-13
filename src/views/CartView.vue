@@ -17,7 +17,7 @@
 <script setup lang="ts">
   import { useEnrichedCart } from '@/composables/useEnrichedCart';
 
-  const { cart, enrichedProducts } = useEnrichedCart(2)
+  const { cart, enrichedProducts } = useEnrichedCart()
 </script>
 
 <style scoped>

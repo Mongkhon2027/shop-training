@@ -1,10 +1,12 @@
 import { useCartStore } from "@/plugins/stores/cart";
+import { useAuthStore } from "@/plugins/stores/auth";
 import productApi from "@/Services/api/features/product";
 import type { Product } from "@/models/product";
 
 export function useEnrichedCart(userId: number){
     const cartStore = useCartStore()
-    const cart = cartStore.cart
+    const authStore = useAuthStore()
+    const cart = cartStore.fetchCart
     const products = ref<Product[]>([])
 
     async function fetchData() {
