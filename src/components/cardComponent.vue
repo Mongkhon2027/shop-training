@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <v-container>
     <v-row>
       <v-col v-for="(product, products) in products || []" :key="product.id" cols="12" sm="4">
@@ -37,4 +37,43 @@ const props = defineProps<{
   overflow-x: hidden;
   display: block;
 }
-</style>
+</style> -->
+
+<template>
+  <v-container>
+    <v-row>
+      <v-col
+        v-for="(item, index) in items || []"
+        :key="item.id || index"
+        cols="12"
+        sm="4"
+      >
+        <slot :item="item" :index="index">
+          <!-- Default fallback card -->
+          <v-card>
+            <v-card-title>{{ item.title || 'No Title' }}</v-card-title>
+            <v-card-text>
+              <div>Description: {{ item.description || '' }}</div>
+              <div>Category: {{ item.category || '' }}</div>
+              <div>
+                Price: {{ item.price || '' }}
+                <span v-if="item.rating && item.rating.count !== undefined">
+                  &nbsp;|&nbsp;Count: {{ item.rating.count }}
+                </span>
+              </div>
+            </v-card-text>
+          </v-card>
+        </slot>
+      </v-col>
+    </v-row>
+  </v-container>
+</template>
+
+<script setup lang="ts">
+import { defineProps } from 'vue'
+
+const props = defineProps<{
+  items: any[] | null
+}>()
+</script>
+
