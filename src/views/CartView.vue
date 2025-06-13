@@ -1,28 +1,23 @@
 <template>
-  <div v-if="cart.products.length ===0">
+  <div v-if="!cart ||cart.products.length ===0">
     <p>No products in cart.</p>
   </div>
   <v-table v-else>
     <tbody>
-      <tr v-for="product in cart.products" :key="product.productId">
-         <td>{{ product.productId }}</td>
-         <td>{{ product.quantity }}</td>
+      <tr v-for="item in enrichedProducts" :key="item.productId">
+         <td><v-img :src="item.product?.image" width="40" height="40"></v-img></td>
+         <td>{{ item.product?.title }}</td>
+         <td>{{ item.product?.price }}</td>
+         <td>{{ item.quantity }}</td>
       </tr>
     </tbody>
   </v-table>
 </template>
 
 <script setup lang="ts">
-    import { useCartStore } from '@/plugins/stores/cart'
-    import { storeToRefs } from 'pinia';
-    
-    const cartStore = useCartStore()
-    const { cart } = storeToRefs(cartStore)
-    const userId = 2;
-    onMounted(() =>{
-      cartStore.fetchCart(userId)
-    })
+  import { useEnrichedCart } from '@/composables/useEnrichedCart';
 
+  const { cart, enrichedProducts } = useEnrichedCart(3)
 </script>
 
 <style scoped>
