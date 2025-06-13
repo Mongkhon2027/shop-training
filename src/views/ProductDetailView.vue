@@ -12,7 +12,7 @@
           <div class="text-h6">
             ราคา : {{ product?.price }} บาท
           </div>
-          <v-btn class="mt-5 mb-5" prepend-icon="mdi-cart">เพิ่มเข้าตะกร้า</v-btn>
+          <v-btn class="mt-5 mb-5" prepend-icon="mdi-cart" @click="handleAddtoCart">เพิ่มเข้าตะกร้า</v-btn>
           <div class="mt-4">
             รายละเอียด :
             <p>
@@ -26,12 +26,19 @@
 </template>
 
 <script setup lang="ts">
+    import { useCartStore } from '@/plugins/stores/cart'
     import productApi from '@/Services/api/features/product'
     import { type Product } from '@/models/product'
     
-    // const addtoCart = 
+    const cartStore = useCartStore()
     const product = ref<Product | null>(null)
     const route = useRoute()
+
+    function handleAddtoCart() {
+      if(product.value) {
+        cartStore.addToCart(product.value.id)
+      }
+    }
 
     async function getProductById(id: number) {
     try {

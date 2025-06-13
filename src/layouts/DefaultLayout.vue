@@ -13,7 +13,9 @@
                 </v-col>
                 <v-col cols="1">
                     <v-btn @click="goToCartPage" icon>
-                        <v-icon>mdi-cart</v-icon>
+                        <v-badge :content="totalItems" color="red" overlap>
+                            <v-icon>mdi-cart</v-icon>
+                        </v-badge>
                     </v-btn>
                 </v-col>
             </v-row>
@@ -27,6 +29,15 @@
 
 <script setup lang="ts">
 import router from '@/plugins/router';
+import { useCartStore } from '@/plugins/stores/cart'
+import { storeToRefs } from 'pinia';
+
+const cartStore = useCartStore()
+const { cart } = storeToRefs(cartStore)
+
+const totalItems = computed(()=>
+    cart.value.products.reduce((sum, item) => sum + item.quantity,0 ) || 0
+)
 
     function goToHomePage() {
         console.log("HomePage");

@@ -1,6 +1,6 @@
 <template>
   <!-- login -->
-  <v-row justify="center" align="center" style="height: 100vh;">
+  <v-row justify="center" class="align-center" style="height: 100vh;">
     <v-cols cols="12" md="4" offset-md="4" cols-sm="6" offset-sm="3" class="text-center centered">
       <v-card width="400px" padding="300px" height="250px">
         <div class="login-page">
