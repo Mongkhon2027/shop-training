@@ -31,7 +31,7 @@
                             <v-list-item>
                                 <v-list-item-content>
                                     <v-list-item-title>
-                                        {{ userDisplayName }}
+                                        {{ userDisplayName.charAt(0).toUpperCase() + userDisplayName.slice(1) }}
                                     </v-list-item-title>
                                 </v-list-item-content>
                             </v-list-item>

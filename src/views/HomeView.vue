@@ -5,7 +5,7 @@
   <div v-else>
     <card-component :items="products">
       <template #default="{ item }">
-        <v-card @click="router.push({ name: 'ProductPage'})">
+        <v-card @click="goToProduct(item.id)" style="cursor: pointer;">
           <v-img :src="item.image" width="120" height="120" contain aspect-ratio="1" class="mx-auto" />
           <v-card-title>{{ item.title }}</v-card-title>
           <v-card-text>
@@ -22,13 +22,11 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
 import { type Product } from '@/models/product';
 import productApi from '@/Services/api/features/product'
 import cardComponent from '@/components/cardComponent.vue'
 import router from '@/plugins/router';
 
-const product = ref<Product | null>(null)
 const products = ref<Product[] | null>(null)
 const loading = ref(true)
 
@@ -41,19 +39,17 @@ async function getAllProduct() {
   }
 }
 
-async function getProductById(id: number) {
-  try {
-    const response = await productApi.getById<Product>(id)
-    product.value = response
-  } catch (error) {
-    console.log('error', error)
-  }
+
+function goToProduct(productId: number){
+  router.push({
+    name: 'ProductPage',
+    params: {id: productId}
+  })
 }
 
 onMounted(async () => {
   loading.value = true
   getAllProduct()
-  getProductById(2)
   loading.value = false
 })
 </script>

@@ -54,7 +54,7 @@ export const useAuthStore = defineStore('auth',()=> {
   
     const DisplayName = computed(() =>{
       if(user.value?.name?.firstname){
-        return user.value.name.firstname
+        return `${user.value.name.firstname} ${user.value.name.lastname}`
       }
       if(username.value) {
         return username.value

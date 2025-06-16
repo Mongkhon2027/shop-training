@@ -2,8 +2,10 @@
   <v-container>
     <v-row>
       <v-col cols="6" class="mt-6" >
-          <v-img :src="product?.image" alt="Product Image" width="75%" height="75%">
+        <div class="image-frame">
+          <v-img :src="product?.image" alt="Product Image">
           </v-img>
+        </div>
       </v-col>
       <v-col cols="6">
           <div class="text-h6 mt-6">
@@ -54,6 +56,18 @@
     })
 </script>
     
-<style scoped>
+<style scoped lang="scss">
+  .image-frame {
+    width: 400px;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 8px;
+  }
 
+  .image-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
 </style>
