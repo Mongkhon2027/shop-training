@@ -35,6 +35,7 @@ export const useCartStore = defineStore('cart',()=> {
             cart.value =  emptyCart()
         }
     }
+
     async function fetchCartFromAuthUser() {
         const authStore = useAuthStore()
         if(!authStore.userId) return
@@ -57,24 +58,58 @@ export const useCartStore = defineStore('cart',()=> {
         
         }
     }
-    function addToCart(productId: number) {
-    const existing = cart.value!.products.find(p => p.productId === productId)
-    if (existing) {
-        existing.quantity++
-    } else {
-        cart.value!.products.push({ productId, quantity: 1 })
-    }
+    
+    async function addToCart(productId: number) {
+        const authStore = useAuthStore()
+        if(!authStore.userId) return
+
+        if(!cart.value){
+            cart.value = emptyCart()
+        }
+
+        const existing = cart.value!.products.find(p => p.productId === productId)
+        if (existing) {
+            existing.quantity++
+        } else {
+            cart.value.products.push({ productId, quantity: 1 })
+        }
+        // ส่งข้อมูลไปยัง API
+        try {
+            const cartData = {
+                userId: Number(authStore.userId),
+                date: new Date().toISOString(),
+                products: cart.value.products
+            }
+
+            if (cart.value.id && cart.value.id > 0) {
+                // อัพเดท cart ที่มีอยู่
+                await cartApi.updateCart(cart.value.id, cartData)
+            } else {
+                // สร้าง cart ใหม่
+                const newCart = await cartApi.addOrUpdateCart<typeof cartData, Cart>(cartData)
+                cart.value.id = newCart.id
+            }
+
+            console.log('Cart updated successfully')
+        } catch (error) {
+            console.error('Error updating cart:', error)
+        }
     }
 
     function clearCart() {
-    cart.value!.products = []
+        cart.value!.products = []
     }
-    return {cart, fetchCart, fetchCartFromAuthUser, addToCart, clearCart}
+
+    return {cart, 
+            fetchCart, 
+            fetchCartFromAuthUser, 
+            addToCart, 
+            clearCart}
 }, {
   persist: {
     key: 'cart',
     storage: localStorage,
-    pick: ['carts']
+    pick: ['cart']
   }
 }
 )

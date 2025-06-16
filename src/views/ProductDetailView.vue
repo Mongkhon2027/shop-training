@@ -1,6 +1,9 @@
 <template>
   <v-container>
-    <v-row>
+    <div v-if="loading">
+      <v-progress-circular indeterminate color="primary"></v-progress-circular>
+    </div>
+    <v-row v-else-if="product">
       <v-col cols="6" class="mt-6" >
         <div class="image-frame">
           <v-img :src="product?.image" alt="Product Image">
@@ -14,7 +17,10 @@
           <div class="text-h6">
             ราคา : {{ product?.price }} บาท
           </div>
-          <v-btn class="mt-5 mb-5" prepend-icon="mdi-cart" @click="handleAddtoCart">เพิ่มเข้าตะกร้า</v-btn>
+          <v-btn class="mt-5 mb-5" prepend-icon="mdi-cart" @click="handleAddtoCart" :loading="addingToCart" color="primary">เพิ่มเข้าตะกร้า</v-btn>
+          <v-alert v-if="showSuccessAlert" type="success" closable @click:close="showSuccessAlert = false">
+            เพิ่มสินค้าเข้าตะกร้าเรียบร้อยแล้ว!
+          </v-alert>
           <div class="mt-4">
             รายละเอียด :
             <p>
@@ -23,6 +29,7 @@
           </div>
       </v-col>
     </v-row>
+
   </v-container>
     
 </template>
@@ -34,25 +41,49 @@
     
     const cartStore = useCartStore()
     const product = ref<Product | null>(null)
+    const loading = ref(true)
+    const addingToCart = ref(false)
+    const showSuccessAlert = ref(false)
     const route = useRoute()
 
-    function handleAddtoCart() {
+    async function handleAddtoCart() {
       if(product.value) {
-        cartStore.addToCart(product.value.id)
+        addingToCart.value = true
+        try {
+          await cartStore.addToCart(product.value.id)
+          showSuccessAlert.value = true
+
+          setTimeout(() => {
+            showSuccessAlert.value = false
+          }, 3000)
+        } catch (error) {
+          console.error('Error adding to cart:', error);
+        } finally {
+          addingToCart.value = false
+        }
       }
     }
 
     async function getProductById(id: number) {
-    try {
-      const response = await productApi.getById<Product>(id)
-      product.value = response
-    } catch (error) {
-      console.log('error', error)
+      try {
+        loading.value = true;
+        const response = await productApi.getById<Product>(id)
+        product.value = response
+      } catch (error) {
+        console.log('error', error)
+        product.value = null
+      } finally {
+        loading.value = false
+      }
     }
-    }
+
     onMounted(() => {
       const id = Number(route.params.id)
-      if (!isNaN(id)) getProductById(id)
+      if (!isNaN(id)) {
+        getProductById(id)
+      } else {
+        loading.value = false
+      }
     })
 </script>
     
