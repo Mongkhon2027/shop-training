@@ -14,10 +14,9 @@
               style="width: 300px; padding: 15px; height: 40px; border: 2px solid black;" />
           </p>
           <p style="padding: 20px; ">
-            <!-- <v-btn text="Login" @click="router.push({ name: 'Home' })"></v-btn> -->
-            <!-- <v-btn text="Login" @click="router.push({ name: 'Home' })"></v-btn> -->
             <v-btn text="Login" @click="login"></v-btn>
           </p>
+          <p v-if="error" style="color: red;">{{ error }}</p>
         </div>
       </v-card>
     </v-cols>
@@ -51,7 +50,8 @@ const login = async () => {
 
     authStore.setToken(data.token)
     authStore.setUserId(sub)
-
+    authStore.setUserName(username.value)
+    
     
     router.push({ name: 'Home' })
   } catch (err) {
