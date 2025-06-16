@@ -45,16 +45,18 @@ const login = async () => {
     })
 
     if (!data?.token) throw new Error('Invalid credentials')
-    
-    const sub = jwtDecode(data.token).sub
+    const decoded = jwtDecode(data.token)
+    const userId = decoded.sub
+    // const sub = jwtDecode(data.token).sub
 
     authStore.setToken(data.token)
-    authStore.setUserId(sub)
+    authStore.setUserId(Number(userId))
     authStore.setUserName(username.value)
     
     
     router.push({ name: 'Home' })
   } catch (err) {
+    console.error('Login error:',err);
     error.value = 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง'
   }
 }
