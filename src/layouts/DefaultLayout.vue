@@ -23,9 +23,6 @@
                         <template v-slot:activator="{ props }">
                             <v-btn icon v-bind="props">
                                 <v-avatar size="32">
-                                    <!-- <v-icon>
-                                        mdi-account
-                                    </v-icon> -->
                                     {{ userDisplayName.charAt(0) }}
                                 </v-avatar>
                             </v-btn>
@@ -72,12 +69,7 @@ const totalItems = computed(()=>
     cart.value? cart.value.products.reduce((sum, item) => sum + item.quantity,0 ) : 0
 )
 
-const userDisplayName = computed(() => {
-    if(authStore.username) {
-        return `${authStore.username}`
-    }
-    return `ผู้ใช้ #${authStore.userId}`
-})
+const userDisplayName = computed(() => authStore.DisplayName)
 
     function goToHomePage() {
         console.log("HomePage");
