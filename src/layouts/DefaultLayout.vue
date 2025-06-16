@@ -29,11 +29,9 @@
                         </template>
                         <v-list>
                             <v-list-item>
-                                <v-list-item-content>
                                     <v-list-item-title>
                                         {{ userDisplayName.charAt(0).toUpperCase() + userDisplayName.slice(1) }}
                                     </v-list-item-title>
-                                </v-list-item-content>
                             </v-list-item>
                             <v-divider></v-divider>
                             <v-list-item @click="logout">
